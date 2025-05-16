@@ -1,0 +1,26 @@
+<h1> Event Me </h1>
+
+<div>
+    <% if user_signed_in? %>
+        <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+    <% else %>
+        <%= link_to "Log In", new_user_session_path %>
+        <%= link_to "Sign Up", new_user_registration_path %>
+    <% end %>
+</div>
+
+
+<h2> All Events </h2>
+
+<div>
+    <% if @events.empty?%>
+        <p> No events posted yet </p>
+    <% else %>
+        <% @events.each do |event| %>
+            <h3> <%= event.name %> </h3>
+            <%= event.date %>
+            <%= event.location%>
+        <% end %>
+    <% end %>
+</div>
+

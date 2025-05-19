@@ -1,30 +1,55 @@
 <h1> My Events </h1>
 
 <h2> Events you're Hosting</h2>
-<div>
+<div class= "wrapper">
     <% if @events.blank?%>
         <p> "No events created yet" </p>
     <%else%>
-    <ul>
         <% @creator.created_events.each do |event| %>
-        <li>
-            <strong><%= link_to event.name, event_path(event.creator)%> </strong><br>
-            <%= event.date%> - <%= event.location%>
-        </li>
+        <div class= "event-container">
+            <ul>
+                <li>
+                    <strong><%= link_to event.name, event_path(event.creator)%> </strong><br>
+                    <%= event.date%> - <%= event.location%><br>
+                    No of Attendees: <%= event.no_of_attendees %><br>
+                </li>
+                <li><%= link_to "Edit", edit_event_path(event) %></li>
+                <li><%= link_to "Delete", event_path(event), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>           
+            </ul>
+        </div>
         <% end %>
-    </ul>
     <% end %>
 </div>
 
 <h2> Events you're Attending </h2>
 <div>
-    <% if current_user.attended_events.blank? %>
+    <% future_events = current_user.attended_events.where("date > ?", Date.today) %>
+    <% if future_events.blank? %>
         <p> You're not attending any events at the moment </p>
     <% else %>
         <ul>
-            <% current_user.attended_events.each do |attended_event| %>
-                <li><%= link_to "#{attended_event.name} - #{attended_event.date}", event_path(attended_event) %></li>
+            <% future_events.each do |event| %>
+                <li><%= link_to "#{event.name} - #{event.date}", event_path(event) %></li>
             <% end %>
         </ul>
     <% end %>
+</div>
+
+<h2> Events you've already Attended </h2>
+<div>
+    <% past_events = current_user.attended_events.where("date < ?", Date.today)%>
+    <% if past_events.any?%>
+        <ul>
+            <% past_events.each do |event| %>
+                <li><%= link_to "#{event.name} - #{event.date}", event_path(event) %></li>
+            <% end %>
+        </ul>
+    <% else %>
+        <p> You haven't attended any events in the past </p>
+    <% end %>
+
+
 

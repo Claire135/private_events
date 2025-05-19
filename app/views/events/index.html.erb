@@ -1,17 +1,33 @@
 <h2> All Events </h2>
 
+<h3>Upcoming Events</h3>
 <div class= "wrapper">
-        <% if @events.empty?%>
+        <% if @events.upcoming.empty?%>
             <p> No events posted yet. <%= link_to "Create one", new_event_path %> </p>
         <% else %>
-            <% @events.each do |event| %>
+            <% @events.upcoming.each do |event| %>
+                <div class= "event-container">
+                    <h3> <strong><%= link_to event.name, event_path(event)%> </strong><br> </h3>
+                    <h4>Hosted by: <%= event.creator.email %> </h4>
+                    <p> Date: <%= event.date %> </P>
+                    <P> Location: <%= event.location%> </p>
+                    <p> No of Attendees: <%= event.no_of_attendees %>
+                </div>
+            <% end %>
+        <% end %>
+</div>
+
+<h3>Past Events</h3>
+<div class="wrapper">
+    <% if @events.past.any?%>
+        <% @events.past.each do |event| %>
                 <div class= "event-container">
                     <h3> <strong><%= link_to event.name, event_path(event)%> </strong><br> </h3>
                     <h4>Hosted by: <%= event.creator.email %> </h4>
                     <p> Date: <%= event.date %> </P>
                     <P> Location: <%= event.location%> </p>
                 </div>
-            <% end %>
         <% end %>
+    <% end %>
 </div>
 

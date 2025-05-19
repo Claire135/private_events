@@ -1,17 +1,17 @@
-<h1> Event Me </h1>
-
 <h2> All Events </h2>
 
-<div>
-    <% if @events.empty?%>
-        <p> No events posted yet. <%= link_to "Create one", new_event_path %> </p>
-    <% else %>
-        <% @events.each do |event| %>
-            <h3> <%= event.name %> </h3>
-            <h4>Hosted by: <%= event.creator.email %> </h4>
-            <p> Date: <%= event.date %> </P>
-            <P> Location: <%= event.location%> </p>
+<div class= "wrapper">
+        <% if @events.empty?%>
+            <p> No events posted yet. <%= link_to "Create one", new_event_path %> </p>
+        <% else %>
+            <% @events.each do |event| %>
+                <div class= "event-container">
+                    <h3> <strong><%= link_to event.name, event_path(event)%> </strong><br> </h3>
+                    <h4>Hosted by: <%= event.creator.email %> </h4>
+                    <p> Date: <%= event.date %> </P>
+                    <P> Location: <%= event.location%> </p>
+                </div>
+            <% end %>
         <% end %>
-    <% end %>
 </div>
 

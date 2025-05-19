@@ -1,3 +1,25 @@
 <h1><%=@event.name%></h1>
 <h2>Hosted by: <%= @event.creator.email %> </h2>
-<p><%=@event.date%> - <%=@event.location%> 
+<p><%=@event.date%> - <%=@event.location%></p><br>
+
+<% if current_user.attended_events.include?(@event) %>
+  <% invitation = current_user.invitations.find_by(event_id: @event.id) %>
+  <%= button_to 'Leave Event', event_invitation_path(@event, invitation), method: :delete, data: { turbo_confirm: 'Are you sure you want to cancel?' } %>
+<% elsif current_user == @event.creator %>
+  <p>You can't register for this event</p>
+<% else %>
+  <%= button_to 'Join Event', event_invitations_path(@event), method: :post %>
+<% end %>
+
+<h2>Who's Going?</h2>
+<% if @event.attendees.blank? %>
+  <p>No attendees yet</p>
+<% else %>
+  <ul>
+    <% @event.attendees.each do |attendee| %>
+      <li><%= link_to attendee.email, event_invitation_path(@event, attendee) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= link_to "Back", request.referer || root_path %>

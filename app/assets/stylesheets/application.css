@@ -8,3 +8,40 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+ body{
+    display: flex;
+    flex-direction: column;
+ }
+
+ nav{
+    background-color: aquamarine;
+ }
+
+ nav ul{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+ }
+
+ ul{
+    list-style: none;
+ }
+
+ .wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+ }
+
+ .event-container{
+    border: solid blueviolet 4px;
+    padding: 10px;
+    max-width: 250px;
+ }
+
+ a{
+    text-decoration: none;
+ }
+
